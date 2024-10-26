@@ -10,17 +10,17 @@ export default function Home() {
     <>
        <Header />
 
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex flex-col justify-center items-center px-4">
+    <div className="min-h-screen bg-gradient-to-br flex flex-col justify-center items-center px-4">
       <div className="text-center">
-        <h1 className="text-5xl font-bold text-white mb-6">
+        <h1 className="text-5xl font-bold text-black mb-6">
           Welcome to Crafto
         </h1>
-        <p className="text-xl text-white mb-8">
-          Discover and share inspiring quotes from around the world.
+        <p className="text-xl text-black mb-8">
+          Discover and share inspiring quotes.
         </p>
         <Link
           href="/quote"
-          className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-full hover:bg-blue-100 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+          className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
         >
           View Quotes
         </Link>

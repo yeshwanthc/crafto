@@ -6,7 +6,6 @@ import Header from "@/components/Header";
 
 const CreateQuote = () => {
   const [text, setText] = useState("");
-  const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [mediaUrl, setMediaUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +40,7 @@ const CreateQuote = () => {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      setFile(selectedFile);
+
       setPreviewUrl(URL.createObjectURL(selectedFile));
 
       try {
@@ -79,7 +78,7 @@ const CreateQuote = () => {
 
       setStatus({ type: 'success', message: "Quote created successfully!" });
       setText("");
-      setFile(null);
+   
       setPreviewUrl("");
       setMediaUrl("");
     } catch (err) {
@@ -93,7 +92,7 @@ const CreateQuote = () => {
     <>
       <Header />
   
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-2xl mt-20 lg:mt-30 mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center">Create a New Quote</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>

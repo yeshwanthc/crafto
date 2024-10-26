@@ -34,7 +34,7 @@ const QuoteComponent = () => {
       }
 
       const response = await fetch(
-        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${page + 10}`,
+        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${page * 10}`,
         {
           headers: {
             Authorization: token,
@@ -69,7 +69,8 @@ const QuoteComponent = () => {
 
   useEffect(() => {
     const filtered = quotes.filter(quote =>
-      quote.username.toLowerCase().includes(searchTerm.toLowerCase())
+      quote.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      quote.text.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredQuotes(filtered);
   }, [quotes, searchTerm]);
@@ -97,7 +98,7 @@ const QuoteComponent = () => {
     <>
      <Header />
  
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mt-20 lg:mt-30  mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Quotes</h1>
       <div className="mb-6">
         <input

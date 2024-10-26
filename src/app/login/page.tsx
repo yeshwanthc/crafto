@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -16,8 +16,6 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-   
-
       const response = await fetch('https://assignment.stage.crafto.app/login', {
         method: 'POST',
         headers: {
@@ -45,13 +43,17 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-8 bg-white rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        {error && <p className="text-red-500 mb-4" role="alert">{error}</p>}
-        <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="p-8 w-full max-w-md bg-white rounded-lg shadow-lg transform transition-all duration-300">
+        <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Login</h1>
+        {error && (
+          <p id="login-error" className="text-sm text-red-600 text-center mb-4" role="alert">
+            {error}
+          </p>
+        )}
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username" className="block mb-1 font-medium">
+            <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-1">
               Username
             </label>
             <input
@@ -59,14 +61,15 @@ const Login = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
               aria-invalid={error ? 'true' : 'false'}
               aria-describedby={error ? 'login-error' : undefined}
+              placeholder="Enter your username"
             />
           </div>
           <div>
-            <label htmlFor="otp" className="block mb-1 font-medium">
+            <label htmlFor="otp" className="block text-sm font-semibold text-gray-700 mb-1">
               OTP
             </label>
             <input
@@ -74,15 +77,16 @@ const Login = () => {
               id="otp"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
               aria-invalid={error ? 'true' : 'false'}
               aria-describedby={error ? 'login-error' : undefined}
+              placeholder="Enter your OTP"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300"
+            className="w-full py-3 bg-gradient-to-r bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 disabled:opacity-50"
             disabled={isLoading}
           >
             {isLoading ? 'Logging in...' : 'Submit'}
