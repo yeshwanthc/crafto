@@ -33,7 +33,7 @@ const Login = () => {
       const data = await response.json();
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
-      router.push('/quote');
+      router.push('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
       console.error("Error:", err);
