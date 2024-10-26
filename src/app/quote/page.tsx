@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
-
 
 interface Quote {
   id: number;
@@ -34,7 +33,9 @@ const QuoteComponent = () => {
       }
 
       const response = await fetch(
-        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${page * 10}`,
+        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${
+          page * 10
+        }`,
         {
           headers: {
             Authorization: token,
@@ -57,7 +58,7 @@ const QuoteComponent = () => {
       setQuotes((prevQuotes) => [...prevQuotes, ...data.data]);
     } catch (error) {
       setError("Error fetching quotes");
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -68,9 +69,10 @@ const QuoteComponent = () => {
   }, [page]);
 
   useEffect(() => {
-    const filtered = quotes.filter(quote =>
-      quote.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      quote.text.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = quotes.filter(
+      (quote) =>
+        quote.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.text.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredQuotes(filtered);
   }, [quotes, searchTerm]);
@@ -96,44 +98,47 @@ const QuoteComponent = () => {
 
   return (
     <>
-     <Header />
- 
-    <div className="container mt-20 lg:mt-30  mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Quotes</h1>
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Search quotes..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="Search quotes"
-        />
-      </div>
-      {loading && filteredQuotes.length === 0 ? (
-        <QuoteSkeleton />
-      ) : filteredQuotes.length === 0 ? (
-        <p className="text-center text-gray-600">No quotes available.</p>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredQuotes.map((quote, i) => (
-              <QuoteCard key={i} quote={quote} />
-            ))}
+      <Header />
+      <div className="mt-20">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
+            Quotes
+          </h1>
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Search quotes..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Search quotes"
+            />
           </div>
-          {filteredQuotes.length === quotes.length && (
-            <div className="text-center mt-8">
-              <button
-                onClick={loadMore}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105"
-              >
-                Load More
-              </button>
-            </div>
+          {loading && filteredQuotes.length === 0 ? (
+            <QuoteSkeleton />
+          ) : filteredQuotes.length === 0 ? (
+            <p className="text-center text-gray-600">No quotes available.</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredQuotes.map((quote, i) => (
+                  <QuoteCard key={i} quote={quote} />
+                ))}
+              </div>
+              {filteredQuotes.length === quotes.length && (
+                <div className="text-center mt-8">
+                  <button
+                    onClick={loadMore}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105"
+                  >
+                    Load More
+                  </button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
-    </div>
+        </div>
+      </div>
     </>
   );
 };
@@ -141,25 +146,25 @@ const QuoteComponent = () => {
 const QuoteCard = ({ quote }: { quote: Quote }) => (
   <div className="bg-white p-4 rounded-lg border shadow-md transition duration-300 ease-in-out hover:shadow-lg flex flex-col justify-between">
     <div>
-      <p className="text-lg italic mb-2 text-gray-700 line-clamp-3">&quot;{quote.text}&quot;</p>
-   
+      <p className="text-lg italic mb-2 text-gray-700 line-clamp-3">
+        &quot;{quote.text}&quot;
+      </p>
     </div>
     {quote.mediaUrl && (
       <div className="mt-3 relative">
         <img
           src={quote.mediaUrl}
           alt="Quote media"
-     
           className="quote-image rounded-md transition-transform duration-300 ease-in-out hover:scale-105"
         />
       </div>
     )}
     <div className="mt-5 flex justify-between">
-
-    <p className="text-xs text-gray-500 mt-2">Created at:{new Date(quote.createdAt).toLocaleDateString()}</p>
-    <p className="text-right text-sm text-gray-600">- {quote.username}</p>
+      <p className="text-xs text-gray-500 mt-2">
+        Created at:{new Date(quote.createdAt).toLocaleDateString()}
+      </p>
+      <p className="text-right text-sm text-gray-600">- {quote.username}</p>
     </div>
-  
   </div>
 );
 
