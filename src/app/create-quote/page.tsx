@@ -3,6 +3,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import Header from "@/components/Header";
+import { useAuth } from "@/hooks/useAuth";
 
 const CreateQuote = () => {
   const [text, setText] = useState("");
@@ -13,6 +14,10 @@ const CreateQuote = () => {
     type: "error" | "success" | null;
     message: string | null;
   }>({ type: null, message: null });
+
+  const isAuthenticated = useAuth();
+
+  if (!isAuthenticated) return null;
 
   const uploadFile = async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -115,7 +120,7 @@ const CreateQuote = () => {
     <>
       <Header />
 
-      <div className="max-w-2xl mt-20 mx-auto p-4">
+      <div className="max-w-2xl mt-10 mx-auto p-4">
         <h1 className="text-3xl font-bold mb-6 text-center">
           Create a New Quote
         </h1>

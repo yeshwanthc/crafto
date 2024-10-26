@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import Header from "@/components/Header";
 
 interface Quote {
@@ -18,6 +19,7 @@ const QuoteComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
@@ -33,9 +35,7 @@ const QuoteComponent = () => {
       }
 
       const response = await fetch(
-        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${
-          page * 10
-        }`,
+        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${page * 10}`,
         {
           headers: {
             Authorization: token,
@@ -55,7 +55,12 @@ const QuoteComponent = () => {
       }
 
       const data = await response.json();
-      setQuotes((prevQuotes) => [...prevQuotes, ...data.data]);
+
+      if (data.data.length === 0) {
+        setHasMore(false);
+      } else {
+        setQuotes((prevQuotes) => [...prevQuotes, ...data.data]);
+      }
     } catch (error) {
       setError("Error fetching quotes");
       console.log(error);
@@ -65,7 +70,7 @@ const QuoteComponent = () => {
   };
 
   useEffect(() => {
-    fetchQuotes();
+    if (hasMore) fetchQuotes();
   }, [page]);
 
   useEffect(() => {
@@ -95,11 +100,11 @@ const QuoteComponent = () => {
       </div>
     );
   }
-
+console.log(quotes)
   return (
     <>
       <Header />
-      <div className="mt-20">
+      <div className="mt-10 relative">
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
             Quotes
@@ -125,43 +130,52 @@ const QuoteComponent = () => {
                   <QuoteCard key={i} quote={quote} />
                 ))}
               </div>
-              {filteredQuotes.length === quotes.length && (
-                <div className="text-center mt-8">
-                  <button
-                    onClick={loadMore}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105"
-                  >
-                    Load More
-                  </button>
-                </div>
-              )}
+              {(loading && <QuoteSkeleton />) || (hasMore && (
+            <div className="text-center mt-8">
+              <button
+                onClick={loadMore}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform transform hover:scale-105"
+              >
+                Load More
+              </button>
+            </div>
+          ))}
             </>
           )}
         </div>
+        <button
+          onClick={() => router.push("/create-quote")}
+          className="fixed bottom-8 right-8 bg-blue-600 text-white text-2xl font-bold py-2 px-4 rounded-full shadow-lg transition-transform transform hover:scale-110"
+          aria-label="Create Quote"
+        >
+          +
+        </button>
       </div>
     </>
   );
 };
 
 const QuoteCard = ({ quote }: { quote: Quote }) => (
-  <div className="bg-white p-4 rounded-lg border shadow-md transition duration-300 ease-in-out hover:shadow-lg flex flex-col justify-between">
-    <div>
-      <p className="text-lg italic mb-2 text-gray-700 line-clamp-3">
-        &quot;{quote.text}&quot;
-      </p>
-    </div>
-    {quote.mediaUrl && (
-      <div className="mt-3 relative">
+  <div className="bg-white p-4 rounded-lg border shadow-md transition duration-300 ease-in-out hover:shadow-lg flex flex-col justify-between relative">
+    {quote.mediaUrl ? (
+      <div className="relative">
         <img
           src={quote.mediaUrl}
           alt="Quote media"
-          className="quote-image rounded-md transition-transform duration-300 ease-in-out hover:scale-105"
+          className="quote-image rounded-md w-full h-40 object-cover"
         />
+        <p className="absolute text-white inset-0 flex items-center justify-center text-lg font-semibold bg-black bg-opacity-50 p-4 rounded-md">
+          &quot;{quote.text}&quot;
+        </p>
       </div>
+    ) : (
+      <p className="relative text-black inset-0 text-lg font-semibold">
+        &quot;{quote.text}&quot;
+      </p>
     )}
     <div className="mt-5 flex justify-between">
       <p className="text-xs text-gray-500 mt-2">
-        Created at:{new Date(quote.createdAt).toLocaleDateString()}
+        Created at: {new Date(quote.createdAt).toLocaleDateString()}
       </p>
       <p className="text-right text-sm text-gray-600">- {quote.username}</p>
     </div>

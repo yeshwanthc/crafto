@@ -3,24 +3,13 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isAuthenticated = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, [router]);
+  if (!isAuthenticated) return null;
 
-  if (!isAuthenticated) {
-    return null; 
-  }
 
   return (
     <>
