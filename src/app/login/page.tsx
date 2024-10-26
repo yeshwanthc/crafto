@@ -44,7 +44,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="p-8 w-full max-w-md bg-white rounded-lg shadow-lg transform transition-all duration-300">
+      <div className="p-8 w-full max-w-md bg-white rounded-lg md:shadow-lg transform transition-all duration-300">
         <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Login</h1>
         {error && (
           <p id="login-error" className="text-sm text-red-600 text-center mb-4" role="alert">
