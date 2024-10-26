@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quote Creation App
 
-## Getting Started
+This is a Next.js application that allows users to create and view quotes with optional image uploads.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. User Authentication
+   - Login with username and OTP
+   - Token-based authentication for protected routes
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Quote List Page
+   - Displays a paginated list of quotes
+   - Each quote shows:
+     - Image (if available)
+     - Quote text overlaid on the image
+     - Username of the quote creator
+     - Creation timestamp
+   - Floating action button to create new quotes
+   - Infinite scroll pagination
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Quote Creation Page
+   - Text input for the quote
+   - Image upload functionality
+   - Preview of the uploaded image
+   - Submit button to create the quote
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+1. Clone the repository:
+   ```
+   git clone https://github.com/yeshwanthc/crafto.git
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Navigate to the project directory:
+   ```
+   cd crafto
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Install dependencies:
+   ```
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Create a `.env.local` file in the root directory and add any necessary environment variables.
 
-## Deploy on Vercel
+## Running the Application
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Start the development server:
+   ```
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Open your browser and navigate to `http://localhost:3000`
+
+## API Endpoints
+
+The application uses the following API endpoints:
+
+1. Login:
+   ```
+   POST https://assignment.stage.crafto.app/login
+   ```
+
+2. Upload Image:
+   ```
+   POST https://crafto.app/crafto/v1.0/media/assignment/upload
+   ```
+
+3. Create Quote:
+   ```
+   POST https://assignment.stage.crafto.app/postQuote
+   ```
+
+4. Get Quotes:
+   ```
+   GET https://assignment.stage.crafto.app/getQuotes
+   ```
+
+## Known Issues and Troubleshooting
+
+- If the `mediaUrl` is null in the quote creation response, ensure that:
+  1. The file upload is successful and returns a valid URL.
+  2. The `mediaUrl` is correctly included in the quote creation request.
+  3. The server is properly processing and storing the `mediaUrl`.
+
