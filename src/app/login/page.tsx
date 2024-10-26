@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const [username, setUsername] = useState('');
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState(''); 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -16,6 +16,8 @@ const Login = () => {
     setIsLoading(true);
 
     try {
+   
+
       const response = await fetch('https://assignment.stage.crafto.app/login', {
         method: 'POST',
         headers: {
@@ -26,14 +28,17 @@ const Login = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Login failed:", errorData); 
         throw new Error(errorData.message || 'Login failed');
       }
 
       const data = await response.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
       router.push('/quote');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+      console.error("Error:", err);
     } finally {
       setIsLoading(false);
     }

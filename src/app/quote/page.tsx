@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Header from "@/components/Header";
 
 
 interface Quote {
@@ -33,7 +34,7 @@ const QuoteComponent = () => {
       }
 
       const response = await fetch(
-        `https://assignment.stage.crafto.app/getQuotes?limit=12&offset=${page * 12}`,
+        `https://assignment.stage.crafto.app/getQuotes?limit=10&offset=${page + 10}`,
         {
           headers: {
             Authorization: token,
@@ -61,14 +62,14 @@ const QuoteComponent = () => {
       setLoading(false);
     }
   };
-console.log(quotes)
+
   useEffect(() => {
     fetchQuotes();
   }, [page]);
 
   useEffect(() => {
     const filtered = quotes.filter(quote =>
-      quote.text.toLowerCase().includes(searchTerm.toLowerCase())
+      quote.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredQuotes(filtered);
   }, [quotes, searchTerm]);
@@ -93,6 +94,9 @@ console.log(quotes)
   }
 
   return (
+    <>
+     <Header />
+ 
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Quotes</h1>
       <div className="mb-6">
@@ -129,6 +133,7 @@ console.log(quotes)
         </>
       )}
     </div>
+    </>
   );
 };
 

@@ -76,10 +76,5 @@ The application uses the following API endpoints:
    GET https://assignment.stage.crafto.app/getQuotes
    ```
 
-## Known Issues and Troubleshooting
 
-- If the `mediaUrl` is null in the quote creation response, ensure that:
-  1. The file upload is successful and returns a valid URL.
-  2. The `mediaUrl` is correctly included in the quote creation request.
-  3. The server is properly processing and storing the `mediaUrl`.
 

@@ -2,10 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
+import Header from "@/components/Header";
 
 
 export default function Home() {
   return (
+    <>
+       <Header />
+
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex flex-col justify-center items-center px-4">
       <div className="text-center">
         <h1 className="text-5xl font-bold text-white mb-6">
@@ -23,5 +27,6 @@ export default function Home() {
       </div>
     
     </div>
+    </>
   );
 }
